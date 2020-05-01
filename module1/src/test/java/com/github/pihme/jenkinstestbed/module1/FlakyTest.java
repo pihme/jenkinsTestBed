@@ -8,6 +8,14 @@ public class FlakyTest {
 
   Random random = new Random();
 
+
+  @Test
+  public void shouldFailNineInTenInvocations() {
+    if (random.nextDouble() < 0.9) {
+      Assert.fail("failed");
+    }
+  }
+
   @Test
   public void shouldFailOnceInTwoInvocations() {
     if (random.nextDouble() < 0.5) {
