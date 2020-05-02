@@ -22,7 +22,7 @@ pipeline {
             post {
                 always {
                     junit testResults: "**/*/TEST*.xml", keepLongStdio: true
-                    findText regexp: '\[WARNING\] Flakes:', alsoCheckConsoleOutput: true
+                    findText regexp: '\\[WARNING\\] Flakes:', alsoCheckConsoleOutput: true
                 }
             }
         }
