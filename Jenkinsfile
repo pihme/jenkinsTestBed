@@ -22,7 +22,7 @@ pipeline {
             post {
                 always {
                     junit testResults: "**/*/TEST*.xml", keepLongStdio: true
-                    findText regexp: 'Failed tests:', alsoCheckConsoleOutput: true, unstableIfFound: true
+                    findText regexp: 'Failed tests:', alsoCheckConsoleOutput: true
                 }
             }
         }
