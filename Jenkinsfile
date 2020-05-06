@@ -15,15 +15,16 @@ pipeline {
 
         stage ('test') {
             steps {
-                parallel (
-                    "unit tests": { sh './runTests.sh' },
-                )
+                sh './runTests.sh',
+                script {
+                  if (fileExists('flakyTests.txt')) {
+                      currentBuild.description = new File('flakyTests.txt').getText('UTF-8')
+                  }
+              }
             }
             post {
                 always {
                     junit testResults: "**/*/TEST*.xml", keepLongStdio: true
-                    findText regexp: '\\[WARNING\\] Flakes:', alsoCheckConsoleOutput: true
-                }
             }
         }
 
