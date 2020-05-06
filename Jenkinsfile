@@ -15,12 +15,13 @@ pipeline {
 
         stage ('test') {
             steps {
-                sh './runTests.sh',
+                sh './runTests.sh'
+
                 script {
                   if (fileExists('flakyTests.txt')) {
                       currentBuild.description = new File('flakyTests.txt').getText('UTF-8')
                   }
-              }
+                }
             }
             post {
                 always {
