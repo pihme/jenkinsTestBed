@@ -25,6 +25,7 @@ pipeline {
             post {
                 always {
                     junit testResults: "**/*/TEST*.xml", keepLongStdio: true
+                }
             }
         }
 
