@@ -28,8 +28,6 @@ pipeline {
                       echo "condition" + fileExists('flakyTests.txt')
 
                       if (fileExists('flakyTests.txt')) {
-                          echo "Content: " + new File('flakyTests.txt').getText('UTF-8')
-
                           currentBuild.description = readFile('flakyTests.txt')
                       }
 
