@@ -30,7 +30,7 @@ pipeline {
                       if (fileExists('flakyTests.txt')) {
                           echo "Content: " + new File('flakyTests.txt').getText('UTF-8')
 
-                          currentBuild.description = new File('flakyTests.txt').getText('UTF-8')
+                          currentBuild.description = readFile('flakyTests.txt')
                       }
 
                       echo "leaving script block"
