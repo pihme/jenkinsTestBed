@@ -28,7 +28,7 @@ pipeline {
                       echo "condition" + fileExists('flakyTests.txt')
 
                       if (fileExists('flakyTests.txt')) {
-                          currentBuild.description = readFile('flakyTests.txt')
+                          currentBuild.description = "Flaky Tests: +\n" + readFile('flakyTests.txt')
                       }
 
                       echo "leaving script block"
