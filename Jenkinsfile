@@ -16,7 +16,7 @@ pipeline {
         stage ('test') {
             steps {
                 parallel (
-                    "unit tests": { sh 'mvn test -Dsurefire.rerunFailingTestsCount=15' },
+                    "unit tests": { sh './runTests.sh' },
                 )
             }
             post {
