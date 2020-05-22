@@ -15,9 +15,7 @@ pipeline {
 
         stage ('test') {
             steps {
-                parallel (
-                    "unit tests": { sh 'mvn test --fail-never' },
-                )
+                        sh './runTests.sh'
             }
             post {
                 always {

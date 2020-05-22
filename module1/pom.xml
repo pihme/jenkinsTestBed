@@ -13,6 +13,7 @@
   <version>1.0-SNAPSHOT</version>
   <name>module1</name>
   <url>http://maven.apache.org</url>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -21,4 +22,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
 </project>
