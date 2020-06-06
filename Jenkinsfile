@@ -6,6 +6,9 @@ pipeline {
     tools {
             maven '3.6.3'
     }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '100'))
+    }
     stages {
         stage('build') {
             steps {
