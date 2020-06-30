@@ -11,6 +11,7 @@ public class FlakyTest {
 
   @Test
   public void shouldFailNineInTenInvocations() {
+    System.out.println(System.currentTimeMillis());
     if (random.nextDouble() < 0.9) {
       Assert.fail("failed");
     }
@@ -18,6 +19,7 @@ public class FlakyTest {
 
   @Test
   public void shouldFailOnceInTwoInvocations() {
+    System.out.println(System.currentTimeMillis());
     if (random.nextDouble() < 0.5) {
       Assert.fail("failed");
     }
@@ -25,6 +27,7 @@ public class FlakyTest {
 
   @Test
   public void shouldFailOnceInTenInvocations() {
+    System.out.println(System.currentTimeMillis());
     if (random.nextDouble() < 0.1) {
       Assert.fail("failed");
     }
@@ -32,6 +35,7 @@ public class FlakyTest {
 
   @Test
   public void shouldFailOnceInHundredInvocations() {
+    System.out.println(System.currentTimeMillis());
     if (random.nextDouble() < 0.01) {
       Assert.fail("failed");
     }

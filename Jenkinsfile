@@ -23,6 +23,8 @@ pipeline {
             post {
                 always {
                     junit testResults: "**/*/TEST*.xml", keepLongStdio: true
+
+                    zip zipFile: 'testresults.zip', archive: true, glob: "**/surefire-reports/**"
                 }
                 failure {
                     script {
