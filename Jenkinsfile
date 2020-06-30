@@ -54,14 +54,14 @@ pipeline {
 }
 
     void extractFlakyTestReport(file) {
-        def input = file.path;
+        def input = new File(file.path)
 
         def output = input.substring(0, input.lastIndexOf('.')) + "-FLAKY.xml"
 
         println("Processing: ${input}");
 
         def parser = new XmlParser()
-        def doc = parser.parse(file);
+        def doc = parser.parse(input);
 
         if (hasFlakyTests(doc)) {
             println("Generating: ${output}");
