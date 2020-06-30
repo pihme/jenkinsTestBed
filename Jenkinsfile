@@ -54,9 +54,8 @@ pipeline {
 }
 
     void extractFlakyTestReport(file) {
-        def input = new File(file.path)
-
-        def output = input.substring(0, input.lastIndexOf('.')) + "-FLAKY.xml"
+        def inputFilePath = file.path
+        def input = new File(inputFilePath)
 
         println("Processing: ${input}");
 
@@ -64,6 +63,8 @@ pipeline {
         def doc = parser.parse(input);
 
         if (hasFlakyTests(doc)) {
+
+            def output = inputFilePath.substring(0, inputFilePath.lastIndexOf('.')) + "-FLAKY.xml"
             println("Generating: ${output}");
             modifyTestReport(doc)
 
