@@ -55,7 +55,7 @@ pipeline {
 
     void extractFlakyTestReport(file) {
         def inputFilePath = file.path
-        def input = new File(inputFilePath)
+        def input = new File(".", inputFilePath)
 
         println("Processing: ${input}");
 
