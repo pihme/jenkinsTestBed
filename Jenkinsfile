@@ -56,8 +56,8 @@ pipeline {
     void extractFlakyTestReport(file) {
         def inputFile = file.name
         println("Processing: ${inputFile}");
-        
-        def input = readFile(name).join('')
+
+        def input = readFile(file.name).join('')
 
         println("Processing: ${input}");
 
