@@ -55,12 +55,12 @@ pipeline {
 
     void extractFlakyTestReport(file) {
         def inputFilePath = file.path
-        def input = new File(".", inputFilePath)
+        def input = readFile(file).join(''))
 
         println("Processing: ${input}");
 
         def parser = new XmlParser()
-        def doc = parser.parse(input);
+        def doc = parser.parseText(input);
 
         if (hasFlakyTests(doc)) {
 
@@ -68,10 +68,12 @@ pipeline {
             println("Generating: ${output}");
             modifyTestReport(doc)
 
-            FileWriter fileWriter = new FileWriter(output)
-            XmlNodePrinter nodePrinter = new XmlNodePrinter(new PrintWriter(fileWriter))
+            def stringWriter = new StringWriter(output)
+            def nodePrinter = new XmlNodePrinter(new PrintWriter(stringWriter))
             nodePrinter.setPreserveWhitespace(true)
             nodePrinter.print(doc)
+
+            writeFile( file: output, text: stringWriter.toString)
         } else {
             println("Skipping, because it does not contain flaky tests")
         }
