@@ -54,7 +54,7 @@ pipeline {
         def inputFile = file.path
         println("Processing: ${inputFile}");
 
-        def input = readFile(it.path)
+        def input = readFile(inputFile)
         println("Read: ${input}");
 
         def parser = new XmlParser()
