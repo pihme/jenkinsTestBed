@@ -54,7 +54,7 @@ pipeline {
         def inputFile = file.path
         println("Processing: ${inputFile}");
 
-        def input = readFile(inputFile).join('')
+        def input = readFile(inputFile)
 
         println("Read: ${input}");
 
