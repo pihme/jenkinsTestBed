@@ -54,12 +54,10 @@ pipeline {
 }
 
     void extractFlakyTestReport(file) {
-        def inputFile = file.name
+        def inputFile = file.path
         println("Processing: ${inputFile}");
 
-        def input = readFile(file.name).join('')
-
-        println("Processing: ${input}");
+        def input = readFile(inputFile).join('')
 
         def parser = new XmlParser()
         def doc = parser.parseText(input);
