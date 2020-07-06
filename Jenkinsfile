@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    triggers {
-        cron('H/5 * * * *')
-    }
     tools {
             maven '3.6.3'
     }
@@ -58,6 +55,8 @@ pipeline {
         println("Processing: ${inputFile}");
 
         def input = readFile(inputFile).join('')
+
+        println("Read: ${input}");
 
         def parser = new XmlParser()
         def doc = parser.parseText(input);
