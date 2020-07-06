@@ -23,9 +23,6 @@ pipeline {
                       def files = findFiles(glob: '**/*/TEST-*.xml')
 
                       files.each {
-                        def input = readFile(it.path)
-                        println("Read: ${input}");
-
                         extractFlakyTestReport(it);
                       }
                     }
@@ -57,8 +54,7 @@ pipeline {
         def inputFile = file.path
         println("Processing: ${inputFile}");
 
-
-
+        def input = readFile(it.path)
         println("Read: ${input}");
 
         def parser = new XmlParser()
