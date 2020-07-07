@@ -58,7 +58,6 @@ pipeline {
 
     }
 }
-    @NonCPS
     void extractFlakyTestReport(file) {
         def inputFile = file.path
         println("Processing: ${inputFile}");
@@ -69,20 +68,24 @@ pipeline {
         def doc = parser.parseText(input);
 
         if (hasFlakyTests(doc)) {
-
-            def output = inputFile.substring(0, inputFile.lastIndexOf('.')) + "-FLAKY.xml"
-            println("Generating: ${output}");
-            modifyTestReport(doc)
-
-            def stringWriter = new StringWriter()
-            def nodePrinter = new XmlNodePrinter(new PrintWriter(stringWriter))
-            nodePrinter.setPreserveWhitespace(true)
-            nodePrinter.print(doc)
-
-            writeFile( file: output, text: stringWriter.toString())
+            writeFile( file: output, text: transformTestReport(inputFile))
         } else {
             println("Skipping, because it does not contain flaky tests")
         }
+    }
+
+    @NonCPS
+    void transformTestReport(inputFile) {
+        def output = inputFile.substring(0, inputFile.lastIndexOf('.')) + "-FLAKY.xml"
+        println("Generating: ${output}");
+        modifyTestReport(doc)
+
+        def stringWriter = new StringWriter()
+        def nodePrinter = new XmlNodePrinter(new PrintWriter(stringWriter))
+        nodePrinter.setPreserveWhitespace(true)
+        nodePrinter.print(doc)
+
+        return stringWriter.toString()
     }
 
     @NonCPS
