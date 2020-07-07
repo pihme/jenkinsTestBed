@@ -129,7 +129,7 @@ pipeline {
         def failure = new NodeBuilder().failure(message: flakyFailure['@message'], type: flakyFailure['@type'], flakyFailure['stackTrace'].text())
 
         testcase.append(failure);
-        testcase.append(flakyFailure['system-out'])
+        testcase.append(flakyFailure['system-out'][0])
 
         testcase['flakyFailure'].each { testcase.remove(it)}
     }
