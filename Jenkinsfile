@@ -128,7 +128,7 @@ pipeline {
     }
 
     void adjustTestCount(root) {
-        def testcaseCount = root.['testcase'].size();
+        def testcaseCount = root['testcase'].size();
 
         root['@tests'] = testcaseCount
         root['@failures'] = testcaseCount
