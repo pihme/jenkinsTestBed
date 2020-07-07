@@ -11,7 +11,7 @@ pipeline {
             steps {
                 sh 'mvn clean'
 
-                sh 'rm flakyTests*.*'
+                sh 'rm flakyTests*'
                 sh 'rm testresults.zip'
             }
         }
