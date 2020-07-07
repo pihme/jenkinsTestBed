@@ -11,8 +11,9 @@ pipeline {
             steps {
                 sh 'mvn clean'
 
-                sh 'rm flakyTests*'
-                sh 'rm testresults.zip'
+                sh 'rm -f flaky-tests-log.txt'
+                sh 'rm -f flakyTests.txt'
+                sh 'rm -f testresults.zip'
             }
         }
 
