@@ -68,15 +68,15 @@ pipeline {
         def doc = parser.parseText(input);
 
         if (hasFlakyTests(doc)) {
-            writeFile( file: output, text: transformTestReport(inputFile, doc))
+            def output = inputFile.substring(0, inputFile.lastIndexOf('.')) + "-FLAKY.xml"
+            writeFile( file: output, text: transformTestReport(doc))
         } else {
             println("Skipping, because it does not contain flaky tests")
         }
     }
 
     @NonCPS
-    String transformTestReport(inputFile, doc) {
-        def output = inputFile.substring(0, inputFile.lastIndexOf('.')) + "-FLAKY.xml"
+    String transformTestReport(doc) {
         println("Generating: ${output}");
 
         modifyTestReport(doc)
