@@ -99,13 +99,13 @@ pipeline {
     }
 
     void modifyTestReport(root) {
-        modifyTestSuiteName(root)
+        appendFlakyToName(root)
         pruneNonFlakyTests(root)
         elevateFlakyTests(root)
         adjustTestCount(root)
     }
 
-    void modifyTestSuiteName(root) {
+    void appendFlakyToName(root) {
         def newName = root['@name'] + "-Flaky";
         root['@name'] = newName;
     }
@@ -124,6 +124,8 @@ pipeline {
 
 
     void elevateFlakyFailure(testcase) {
+        appendFlakyToName(testcase)
+
         def flakyFailure = testcase['flakyFailure'][0]
 
         def failure = new NodeBuilder().failure(message: flakyFailure['@message'], type: flakyFailure['@type'], flakyFailure['stackTrace'].text())
