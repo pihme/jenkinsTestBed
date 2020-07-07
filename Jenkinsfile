@@ -120,7 +120,7 @@ pipeline {
 
     @NonCPS
     void appendFlakyToName(root) {
-        def newName = root['@name'] + "-Flaky";
+        def newName = root['@name'] + " (Flaky Test)";
         root['@name'] = newName;
     }
 
@@ -142,8 +142,8 @@ pipeline {
     void elevateFlakyFailure(testcase) {
         appendFlakyToName(testcase)
 
-        def newClassName = testcase['@classname'] + " (Flaky)"
-        testcase['@classname'] = newClassName
+    //    def newClassName = testcase['@classname'] + " (Flaky)"
+    //        testcase['@classname'] = newClassName
 
         def flakyFailure = testcase['flakyFailure'][0]
 
