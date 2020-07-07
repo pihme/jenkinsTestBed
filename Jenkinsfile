@@ -58,7 +58,7 @@ pipeline {
 
     }
 }
-
+    @NonCPS
     void extractFlakyTestReport(file) {
         def inputFile = file.path
         println("Processing: ${inputFile}");
@@ -85,6 +85,7 @@ pipeline {
         }
     }
 
+    @NonCPS
     boolean hasFlakyTests(root) {
         def result = false;
         root['testcase'].each {
@@ -95,10 +96,12 @@ pipeline {
         return result;
     }
 
+    @NonCPS
     boolean isFlakyTest(testcase) {
         return !testcase['flakyFailure'].isEmpty()
     }
 
+    @NonCPS
     void modifyTestReport(root) {
         appendFlakyToName(root)
         pruneNonFlakyTests(root)
@@ -106,24 +109,27 @@ pipeline {
         adjustTestCount(root)
     }
 
+    @NonCPS
     void appendFlakyToName(root) {
         def newName = root['@name'] + "-Flaky";
         root['@name'] = newName;
     }
 
+    @NonCPS
     void pruneNonFlakyTests(root) {
         root['testcase']
                 .findAll { !isFlakyTest(it) }
                 .each { root.remove(it) }
     }
 
+    @NonCPS
     void elevateFlakyTests(root) {
         root['testcase']
                 .findAll { isFlakyTest(it) }
                 .each { elevateFlakyFailure(it) }
     }
 
-
+    @NonCPS
     void elevateFlakyFailure(testcase) {
         appendFlakyToName(testcase)
 
@@ -137,6 +143,7 @@ pipeline {
         testcase['flakyFailure'].each { testcase.remove(it)}
     }
 
+    @NonCPS
     void adjustTestCount(root) {
         def testcaseCount = root['testcase'].size();
 
