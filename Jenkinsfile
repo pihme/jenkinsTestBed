@@ -70,7 +70,7 @@ pipeline {
         if (hasFlakyTests(doc)) {
             def output = inputFile.substring(0, inputFile.lastIndexOf('.')) + "-FLAKY.xml"
             println("Generating: ${output}");
-            
+
             writeFile( file: output, text: transformTestReport(doc))
         } else {
             println("Skipping, because it does not contain flaky tests")
@@ -136,6 +136,9 @@ pipeline {
     @NonCPS
     void elevateFlakyFailure(testcase) {
         appendFlakyToName(testcase)
+
+        def newClassName = testcase['@classname'] + " (Flaky)"
+        testcase['@classname'] = newClassName
 
         def flakyFailure = testcase['flakyFailure'][0]
 
