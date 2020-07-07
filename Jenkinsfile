@@ -7,6 +7,15 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '100'))
     }
     stages {
+        stage('clean') {
+            steps {
+                sh 'mvn clean'
+
+                sh 'rm flakyTests*.*'
+                sh 'rm testresults.zip'
+            }
+        }
+
         stage('build') {
             steps {
                 sh 'mvn clean package -DskipTests=true'
@@ -18,21 +27,15 @@ pipeline {
                 sh './runTests.sh'
             }
             post {
-                always {
+                failure {
                     script {
+
                       def files = findFiles(glob: '**/*/TEST-*.xml')
 
                       files.each {
                         extractFlakyTestReport(it);
                       }
-                    }
 
-                    junit testResults: "**/*/TEST*.xml", keepLongStdio: true
-
-                    zip zipFile: 'testresults.zip', archive: true, glob: "**/surefire-reports/**"
-                }
-                failure {
-                    script {
                       echo "entering script block"
 
                       echo "condition" + fileExists('flakyTests.txt')
@@ -43,6 +46,11 @@ pipeline {
 
                       echo "leaving script block"
                     }
+                }
+                always {
+                    junit testResults: "**/*/TEST*.xml", keepLongStdio: true
+
+                    zip zipFile: 'testresults.zip', archive: true, glob: "**/surefire-reports/**"
                 }
             }
         }
