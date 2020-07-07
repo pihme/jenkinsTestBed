@@ -64,8 +64,7 @@ pipeline {
 
         def input = readFile(inputFile)
 
-        def parser = new XmlParser()
-        def doc = parser.parseText(input);
+        def doc = parseXML(input);
 
         if (hasFlakyTests(doc)) {
             def output = inputFile.substring(0, inputFile.lastIndexOf('.')) + "-FLAKY.xml"
@@ -75,6 +74,12 @@ pipeline {
         } else {
             println("Skipping, because it does not contain flaky tests")
         }
+    }
+
+    @NonCPS
+    Node parseXML(input) {
+        def parser = new XmlParser()
+        return parser.parseText(input);
     }
 
     @NonCPS
