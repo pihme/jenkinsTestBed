@@ -55,7 +55,6 @@ pipeline {
         println("Processing: ${inputFile}");
 
         def input = readFile(inputFile)
-        println("Read: ${input}");
 
         def parser = new XmlParser()
         def doc = parser.parseText(input);
