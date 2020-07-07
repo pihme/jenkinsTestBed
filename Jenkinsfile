@@ -78,7 +78,7 @@ pipeline {
             nodePrinter.setPreserveWhitespace(true)
             nodePrinter.print(doc)
 
-            writeFile( file: output, text: stringWriter.toString)
+            writeFile( file: output, text: stringWriter.toString())
         } else {
             println("Skipping, because it does not contain flaky tests")
         }
