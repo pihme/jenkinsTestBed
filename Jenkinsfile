@@ -69,6 +69,8 @@ pipeline {
 
         if (hasFlakyTests(doc)) {
             def output = inputFile.substring(0, inputFile.lastIndexOf('.')) + "-FLAKY.xml"
+            println("Generating: ${output}");
+            
             writeFile( file: output, text: transformTestReport(doc))
         } else {
             println("Skipping, because it does not contain flaky tests")
@@ -77,8 +79,6 @@ pipeline {
 
     @NonCPS
     String transformTestReport(doc) {
-        println("Generating: ${output}");
-
         modifyTestReport(doc)
 
         def stringWriter = new StringWriter()
