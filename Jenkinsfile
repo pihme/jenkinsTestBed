@@ -73,7 +73,7 @@ pipeline {
             println("Generating: ${output}");
             modifyTestReport(doc)
 
-            def stringWriter = new StringWriter(output)
+            def stringWriter = new StringWriter()
             def nodePrinter = new XmlNodePrinter(new PrintWriter(stringWriter))
             nodePrinter.setPreserveWhitespace(true)
             nodePrinter.print(doc)
