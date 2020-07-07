@@ -58,6 +58,7 @@ pipeline {
 
     }
 }
+
     void extractFlakyTestReport(file) {
         def inputFile = file.path
         println("Processing: ${inputFile}");
@@ -77,7 +78,7 @@ pipeline {
     }
 
     @NonCPS
-    Node parseXML(input) {
+    groovy.util.Node parseXML(input) {
         def parser = new XmlParser()
         return parser.parseText(input);
     }
