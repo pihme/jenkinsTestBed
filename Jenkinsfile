@@ -19,7 +19,7 @@ pipeline {
 
         stage('build') {
             steps {
-                sh 'mvn clean package -DskipTests=true'
+                sh 'mvn package -DskipTests=true'
             }
         }
 
@@ -28,16 +28,20 @@ pipeline {
                 sh './runTests.sh'
             }
             post {
+                always {
+                    script {
+                       def files = findFiles(glob: '**/*/TEST-*.xml')
+
+                       files.each {
+                          extractFlakyTestReport(it);
+                       }
+                    }
+                    junit testResults: "**/*/TEST*.xml", keepLongStdio: true
+
+                    zip zipFile: 'testresults.zip', archive: true, glob: "**/surefire-reports/**"
+                }
                 failure {
                     script {
-
-                      def files = findFiles(glob: '**/*/TEST-*.xml')
-
-                      files.each {
-                        extractFlakyTestReport(it);
-                      }
-
-                      echo "entering script block"
 
                       echo "condition" + fileExists('flakyTests.txt')
 
@@ -47,11 +51,6 @@ pipeline {
 
                       echo "leaving script block"
                     }
-                }
-                always {
-                    junit testResults: "**/*/TEST*.xml", keepLongStdio: true
-
-                    zip zipFile: 'testresults.zip', archive: true, glob: "**/surefire-reports/**"
                 }
             }
         }
