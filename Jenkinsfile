@@ -79,7 +79,7 @@ pipeline {
 
     boolean hasFlakyTests(root) {
         def result = false;
-        root.testcase.each {
+        root['testcase'].each {
             if (isFlakyTest(it)) {
                 result = true;
             }
@@ -88,7 +88,7 @@ pipeline {
     }
 
     boolean isFlakyTest(testcase) {
-        return !testcase.flakyFailure.isEmpty()
+        return !testcase['flakyFailure'].isEmpty()
     }
 
     void modifyTestReport(root) {
@@ -99,37 +99,37 @@ pipeline {
     }
 
     void modifyTestSuiteName(root) {
-        def newName = root.'@name' + "-Flaky";
-        root.'@name' = newName;
+        def newName = root['@name'] + "-Flaky";
+        root['@name'] = newName;
     }
 
     void pruneNonFlakyTests(root) {
-        root.testcase
+        root['testcase']
                 .findAll { !isFlakyTest(it) }
                 .each { root.remove(it) }
     }
 
     void elevateFlakyTests(root) {
-        root.testcase
+        root['testcase']
                 .findAll { isFlakyTest(it) }
                 .each { elevateFlakyFailure(it) }
     }
 
 
     void elevateFlakyFailure(testcase) {
-        def flakyFailure = testcase.flakyFailure[0]
+        def flakyFailure = testcase['flakyFailure'][0]
 
-        def failure = new NodeBuilder().failure(message: flakyFailure.'@message', type: flakyFailure.'@type', flakyFailure.stackTrace.text())
+        def failure = new NodeBuilder().failure(message: flakyFailure['@message'], type: flakyFailure['@type'], flakyFailure['stackTrace'].text())
 
         testcase.append(failure);
-        testcase.append(flakyFailure.'system-out')
+        testcase.append(flakyFailure['system-out'])
 
-        testcase.flakyFailure.each { testcase.remove(it)}
+        testcase['flakyFailure'].each { testcase.remove(it)}
     }
 
     void adjustTestCount(root) {
-        def testcaseCount = root.testcase.size();
+        def testcaseCount = root.['testcase'].size();
 
-        root.'@tests' = testcaseCount
-        root.'@failures' = testcaseCount
+        root['@tests'] = testcaseCount
+        root['@failures'] = testcaseCount
     }
