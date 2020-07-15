@@ -30,6 +30,8 @@ pipeline {
                     )
                     junit testResults: "**/*/TEST*.xml", keepLongStdio: true
                     findText regexp: 'Failed tests:', alsoCheckConsoleOutput: true
+
+                    publishCoverage adapters: [jacocoAdapter(mergeToOneReport: true, path: '**/*.xml')]
                 }
             }
         }
