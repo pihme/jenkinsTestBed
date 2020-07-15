@@ -23,15 +23,15 @@ pipeline {
             post {
                 always {
                     jacoco(
-                          execPattern: 'target/*.exec',
-                          classPattern: 'target/classes',
-                          sourcePattern: 'src/main/java',
-                          exclusionPattern: 'src/test*'
+                          execPattern: '**/*.exec',
+                          classPattern: '**/target/classes',
+                          sourcePattern: '**/src/main/java',
+                          exclusionPattern: '**/src/test*'
                     )
                     junit testResults: "**/*/TEST*.xml", keepLongStdio: true
                     findText regexp: 'Failed tests:', alsoCheckConsoleOutput: true
 
-                    publishCoverage adapters: [jacocoAdapter(mergeToOneReport: true, path: '**/*.xml')]
+                    publishCoverage adapters: [jacocoAdapter(mergeToOneReport: true, path: '**/jacoco.xml')]
                 }
             }
         }
