@@ -7,7 +7,7 @@ public class FailingTest {
 
     @Test
     public void failAlways() {
-        System.out.println(System.currentTimeMillis());
+        System.out.println("Failing test");
         Assert.fail();
     }
 }
